@@ -21,8 +21,6 @@ Install the library alongside ECharts and Qwik in your app:
 
 ```bash
 pnpm add qwik-echarts echarts @builder.io/qwik
-# or
-npm install qwik-echarts echarts @builder.io/qwik
 ```
 
 ## 🚀 Quick start

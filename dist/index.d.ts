@@ -1,7 +1,7 @@
 import * as _builder_io_qwik from '@builder.io/qwik';
 import { EChartsOption } from 'echarts';
 
-interface QwikEChartsProps {
+interface QwikEChartsPlainProps {
     options: EChartsOption;
     theme?: string | Record<string, unknown>;
     height?: number;
@@ -9,7 +9,7 @@ interface QwikEChartsProps {
     class?: string;
     style?: Record<string, string | number>;
 }
-declare const QwikECharts: _builder_io_qwik.Component<QwikEChartsProps>;
+declare const QwikEChartsPlain: _builder_io_qwik.Component<QwikEChartsPlainProps>;
 
 interface LineSeriesInput {
     name?: string;
@@ -34,6 +34,7 @@ interface LineChartOptionsProps {
     yAxisName?: string;
     legend?: boolean;
 }
+declare function buildLineChartOptions(props: LineChartOptionsProps): EChartsOption;
 
 interface QwikLineChartProps extends LineChartOptionsProps {
     height?: number;
@@ -43,4 +44,4 @@ interface QwikLineChartProps extends LineChartOptionsProps {
 
 declare const QwikLineChart: _builder_io_qwik.Component<QwikLineChartProps>;
 
-export { QwikECharts, type QwikEChartsProps, QwikLineChart, type QwikLineChartProps };
+export { type LineChartOptionsProps, type LineSeriesInput, QwikEChartsPlain as QwikECharts, type QwikEChartsPlainProps as QwikEChartsProps, QwikLineChart, type QwikLineChartProps, buildLineChartOptions };

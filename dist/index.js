@@ -1,12 +1,7 @@
-// src/components/qwik-echarts.tsx
-import {
-  component$,
-  createSignal,
-  useTask$,
-  useVisibleTask$
-} from "@builder.io/qwik";
+// src/components/qwik-echarts-plain.tsx
+import { component$, createSignal, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import { jsx } from "@builder.io/qwik/jsx-runtime";
-var QwikECharts = component$((props) => {
+var QwikEChartsPlain = component$((props) => {
   const containerRef = createSignal();
   const chartRef = createSignal(void 0);
   const resizeObserverRef = createSignal(void 0);
@@ -69,7 +64,75 @@ var QwikECharts = component$((props) => {
 });
 
 // src/components/qwik-line-chart.tsx
-import { component$ as component$2 } from "@builder.io/qwik";
+import { component$ as component$3 } from "@builder.io/qwik";
+
+// src/components/qwik-chart-shell.tsx
+import { component$ as component$2, createSignal as createSignal2, useTask$ as useTask$2, useVisibleTask$ as useVisibleTask$2 } from "@builder.io/qwik";
+import { jsx as jsx2 } from "@builder.io/qwik/jsx-runtime";
+var QwikChartShell = component$2((props) => {
+  const containerRef = createSignal2();
+  const chartRef = createSignal2(void 0);
+  const resizeObserverRef = createSignal2(void 0);
+  useVisibleTask$2(({ track }) => {
+    const options = track(() => props.options);
+    const theme = track(() => props.theme);
+    const autoResize = track(() => props.autoResize);
+    const container = containerRef.value;
+    if (!container) {
+      return;
+    }
+    let active = true;
+    void (async () => {
+      const echarts = await import("echarts");
+      if (!active) {
+        return;
+      }
+      const chart = chartRef.value ?? echarts.init(container, theme, { renderer: "canvas" });
+      chartRef.value = chart;
+      chart.setOption(options, { notMerge: false, replaceMerge: ["series"] });
+      if (autoResize !== false) {
+        if (!resizeObserverRef.value) {
+          const observer = new ResizeObserver(() => {
+            chart.resize();
+          });
+          observer.observe(container);
+          resizeObserverRef.value = observer;
+        }
+        chart.resize();
+      } else {
+        resizeObserverRef.value?.disconnect();
+        resizeObserverRef.value = void 0;
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  });
+  useTask$2(() => {
+    return () => {
+      resizeObserverRef.value?.disconnect();
+      chartRef.value?.dispose();
+      chartRef.value = void 0;
+      resizeObserverRef.value = void 0;
+    };
+  });
+  const height = props.height ?? 400;
+  return /* @__PURE__ */ jsx2(
+    "div",
+    {
+      ref: containerRef,
+      class: props.class,
+      style: {
+        width: "100%",
+        height: `${height}px`,
+        ...props.style
+      }
+    }
+  );
+});
+
+// src/components/qwik-echarts.tsx
+var QwikECharts = QwikChartShell;
 
 // src/components/line-chart-options.ts
 function buildLineChartOptions(props) {
@@ -99,10 +162,10 @@ function buildLineChartOptions(props) {
 }
 
 // src/components/qwik-line-chart.tsx
-import { jsx as jsx2 } from "@builder.io/qwik/jsx-runtime";
-var QwikLineChart = component$2((props) => {
+import { jsx as jsx3 } from "@builder.io/qwik/jsx-runtime";
+var QwikLineChart = component$3((props) => {
   const options = buildLineChartOptions(props);
-  return /* @__PURE__ */ jsx2(
+  return /* @__PURE__ */ jsx3(
     QwikECharts,
     {
       options,
@@ -113,6 +176,7 @@ var QwikLineChart = component$2((props) => {
   );
 });
 export {
-  QwikECharts,
-  QwikLineChart
+  QwikEChartsPlain as QwikECharts,
+  QwikLineChart,
+  buildLineChartOptions
 };
