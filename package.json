@@ -1,0 +1,50 @@
+{
+  "name": "qwik-echarts",
+  "version": "0.1.0",
+  "description": "A Qwik wrapper for Apache ECharts with reactive auto-update support.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch"
+  },
+  "peerDependencies": {
+    "@builder.io/qwik": "^1.12.0 || ^2.0.0",
+    "echarts": "^5.0.0"
+  },
+  "devDependencies": {
+    "@builder.io/qwik": "^1.14.0",
+    "@types/node": "^22.10.1",
+    "echarts": "^5.6.0",
+    "rslib": "0.0.10",
+    "tsup": "^8.3.3",
+    "typescript": "^5.7.3"
+  },
+  "keywords": [
+    "qwik",
+    "echarts",
+    "chart",
+    "typescript",
+    "library"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CasperHK/qwik-echarts.git"
+  },
+  "homepage": "https://github.com/CasperHK/qwik-echarts"
+}
