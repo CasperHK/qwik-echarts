@@ -175,8 +175,55 @@ var QwikLineChart = component$3((props) => {
     }
   );
 });
+
+// src/components/qwik-bar-chart.tsx
+import { component$ as component$4 } from "@builder.io/qwik";
+
+// src/components/bar-chart-options.ts
+function buildBarChartOptions(props) {
+  const series = (props.series?.length ? props.series : [{ name: props.seriesName ?? "Series", data: props.data ?? [] }]).map((item) => ({
+    type: "bar",
+    name: item.name ?? props.seriesName ?? "Series",
+    data: item.data.map(
+      (entry) => typeof entry === "number" ? entry : { value: entry.value, name: entry.name }
+    ),
+    color: item.color ?? props.color,
+    ...props.stack ? { stack: "total" } : {}
+  }));
+  return {
+    title: props.title ? { text: props.title } : void 0,
+    tooltip: { trigger: "axis" },
+    legend: props.legend ? { data: series.map((item) => item.name).filter((name) => Boolean(name)) } : void 0,
+    xAxis: {
+      type: "category",
+      data: props.categories
+    },
+    yAxis: {
+      type: "value",
+      name: props.yAxisName
+    },
+    series
+  };
+}
+
+// src/components/qwik-bar-chart.tsx
+import { jsx as jsx4 } from "@builder.io/qwik/jsx-runtime";
+var QwikBarChart = component$4((props) => {
+  const options = buildBarChartOptions(props);
+  return /* @__PURE__ */ jsx4(
+    QwikECharts,
+    {
+      options,
+      height: props.height,
+      class: props.class,
+      style: props.style
+    }
+  );
+});
 export {
+  QwikBarChart,
   QwikEChartsPlain as QwikECharts,
   QwikLineChart,
+  buildBarChartOptions,
   buildLineChartOptions
 };

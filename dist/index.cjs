@@ -30,8 +30,10 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.tsx
 var index_exports = {};
 __export(index_exports, {
+  QwikBarChart: () => QwikBarChart,
   QwikECharts: () => QwikEChartsPlain,
   QwikLineChart: () => QwikLineChart,
+  buildBarChartOptions: () => buildBarChartOptions,
   buildLineChartOptions: () => buildLineChartOptions
 });
 module.exports = __toCommonJS(index_exports);
@@ -204,6 +206,51 @@ var import_jsx_runtime3 = require("@builder.io/qwik/jsx-runtime");
 var QwikLineChart = (0, import_qwik3.component$)((props) => {
   const options = buildLineChartOptions(props);
   return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+    QwikECharts,
+    {
+      options,
+      height: props.height,
+      class: props.class,
+      style: props.style
+    }
+  );
+});
+
+// src/components/qwik-bar-chart.tsx
+var import_qwik4 = require("@builder.io/qwik");
+
+// src/components/bar-chart-options.ts
+function buildBarChartOptions(props) {
+  const series = (props.series?.length ? props.series : [{ name: props.seriesName ?? "Series", data: props.data ?? [] }]).map((item) => ({
+    type: "bar",
+    name: item.name ?? props.seriesName ?? "Series",
+    data: item.data.map(
+      (entry) => typeof entry === "number" ? entry : { value: entry.value, name: entry.name }
+    ),
+    color: item.color ?? props.color,
+    ...props.stack ? { stack: "total" } : {}
+  }));
+  return {
+    title: props.title ? { text: props.title } : void 0,
+    tooltip: { trigger: "axis" },
+    legend: props.legend ? { data: series.map((item) => item.name).filter((name) => Boolean(name)) } : void 0,
+    xAxis: {
+      type: "category",
+      data: props.categories
+    },
+    yAxis: {
+      type: "value",
+      name: props.yAxisName
+    },
+    series
+  };
+}
+
+// src/components/qwik-bar-chart.tsx
+var import_jsx_runtime4 = require("@builder.io/qwik/jsx-runtime");
+var QwikBarChart = (0, import_qwik4.component$)((props) => {
+  const options = buildBarChartOptions(props);
+  return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
     QwikECharts,
     {
       options,

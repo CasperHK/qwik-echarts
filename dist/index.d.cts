@@ -44,4 +44,35 @@ interface QwikLineChartProps extends LineChartOptionsProps {
 
 declare const QwikLineChart: _builder_io_qwik.Component<QwikLineChartProps>;
 
-export { type LineChartOptionsProps, type LineSeriesInput, QwikEChartsPlain as QwikECharts, type QwikEChartsPlainProps as QwikEChartsProps, QwikLineChart, type QwikLineChartProps, buildLineChartOptions };
+interface BarSeriesInput {
+    name?: string;
+    data: Array<number | {
+        value: number;
+        name?: string;
+    }>;
+    color?: string;
+}
+interface BarChartOptionsProps {
+    data?: Array<number | {
+        value: number;
+        name?: string;
+    }>;
+    series?: BarSeriesInput[];
+    categories?: string[];
+    title?: string;
+    seriesName?: string;
+    color?: string;
+    yAxisName?: string;
+    legend?: boolean;
+    stack?: boolean;
+}
+declare function buildBarChartOptions(props: BarChartOptionsProps): EChartsOption;
+
+interface QwikBarChartProps extends BarChartOptionsProps {
+    height?: number;
+    class?: string;
+    style?: Record<string, string | number>;
+}
+declare const QwikBarChart: _builder_io_qwik.Component<QwikBarChartProps>;
+
+export { type BarChartOptionsProps, type BarSeriesInput, type LineChartOptionsProps, type LineSeriesInput, QwikBarChart, type QwikBarChartProps, QwikEChartsPlain as QwikECharts, type QwikEChartsPlainProps as QwikEChartsProps, QwikLineChart, type QwikLineChartProps, buildBarChartOptions, buildLineChartOptions };
