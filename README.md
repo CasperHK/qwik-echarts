@@ -28,26 +28,20 @@ npm install qwik-echarts echarts @builder.io/qwik
 ## 🚀 Quick start
 
 ```tsx
-import { component$, useStore } from '@builder.io/qwik';
-import { QwikECharts } from 'qwik-echarts';
-import type { EChartsOption } from 'echarts';
+import { component$ } from '@builder.io/qwik';
+import { QwikLineChart } from 'qwik-echarts';
 
 export default component$(() => {
-  const state = useStore({
-    salesData: [120, 200, 150, 320, 180, 260, 300],
-  });
-
-  const options: EChartsOption = {
-    title: { text: 'Monthly analytics' },
-    tooltip: { trigger: 'axis' },
-    xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] },
-    yAxis: { type: 'value' },
-    series: [{ type: 'bar', data: state.salesData, color: '#3b82f6' }],
-  };
-
   return (
     <section style={{ padding: '24px' }}>
-      <QwikECharts options={options} height={360} />
+      <QwikLineChart
+        data={[120, 200, 150, 260, 180]}
+        xAxisData={['Jan', 'Feb', 'Mar', 'Apr', 'May']}
+        title="Weekly sales"
+        seriesName="Sales"
+        color="#3b82f6"
+        height={320}
+      />
     </section>
   );
 });

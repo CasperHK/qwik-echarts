@@ -30,7 +30,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
-  QwikECharts: () => QwikECharts
+  QwikECharts: () => QwikECharts,
+  QwikLineChart: () => QwikLineChart
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -95,6 +96,51 @@ var QwikECharts = (0, import_qwik.component$)((props) => {
         height: `${height}px`,
         ...props.style
       }
+    }
+  );
+});
+
+// src/components/qwik-line-chart.tsx
+var import_qwik2 = require("@builder.io/qwik");
+
+// src/components/line-chart-options.ts
+function buildLineChartOptions(props) {
+  const series = (props.series?.length ? props.series : [{ name: props.seriesName ?? "Series", data: props.data ?? [] }]).map((item) => ({
+    type: "line",
+    name: item.name ?? props.seriesName ?? "Series",
+    data: item.data.map(
+      (entry) => typeof entry === "number" ? entry : { value: entry.value, name: entry.name }
+    ),
+    smooth: item.smooth ?? props.smooth ?? true,
+    color: item.color ?? props.color
+  }));
+  return {
+    title: props.title ? { text: props.title } : void 0,
+    tooltip: { trigger: "axis" },
+    legend: props.legend ? { data: series.map((item) => item.name).filter((name) => Boolean(name)) } : void 0,
+    xAxis: {
+      type: "category",
+      data: props.xAxisData
+    },
+    yAxis: {
+      type: "value",
+      name: props.yAxisName
+    },
+    series
+  };
+}
+
+// src/components/qwik-line-chart.tsx
+var import_jsx_runtime2 = require("@builder.io/qwik/jsx-runtime");
+var QwikLineChart = (0, import_qwik2.component$)((props) => {
+  const options = buildLineChartOptions(props);
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(
+    QwikECharts,
+    {
+      options,
+      height: props.height,
+      class: props.class,
+      style: props.style
     }
   );
 });

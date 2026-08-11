@@ -11,4 +11,36 @@ interface QwikEChartsProps {
 }
 declare const QwikECharts: _builder_io_qwik.Component<QwikEChartsProps>;
 
-export { QwikECharts, type QwikEChartsProps };
+interface LineSeriesInput {
+    name?: string;
+    data: Array<number | {
+        value: number;
+        name?: string;
+    }>;
+    color?: string;
+    smooth?: boolean;
+}
+interface LineChartOptionsProps {
+    data?: Array<number | {
+        value: number;
+        name?: string;
+    }>;
+    series?: LineSeriesInput[];
+    xAxisData?: string[];
+    title?: string;
+    seriesName?: string;
+    smooth?: boolean;
+    color?: string;
+    yAxisName?: string;
+    legend?: boolean;
+}
+
+interface QwikLineChartProps extends LineChartOptionsProps {
+    height?: number;
+    class?: string;
+    style?: Record<string, string | number>;
+}
+
+declare const QwikLineChart: _builder_io_qwik.Component<QwikLineChartProps>;
+
+export { QwikECharts, type QwikEChartsProps, QwikLineChart, type QwikLineChartProps };
